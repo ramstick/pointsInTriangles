@@ -63,19 +63,20 @@
         <h1>Derivation of the equations</h1>
         <p>Looking at the sandbox, W<sub>1</sub> and W<sub>2</sub> are 2 different weights<br>W<sub>1</sub> will scale the AB vector and W<sub>2</sub> will scale the AC vector.<br></p>
         <p>It is gauranteed that the combination of a W<sub>1</sub> and W<sub>2</sub> will sum up to vector D<br>Therefore there is such a W<sub>1</sub> and W<sub>2</sub> where:</p>
-        <div>$$\left[\begin{array} \\ W_1 \\ W_2 \end{array}\right]\begin{bmatrix}B_x-A_x & C_x-A_x \\ B_y-A_y & C_y-A_y \\\end{bmatrix} = \left[\begin{array}\\D_x\\D_y\end{array}\right]$$</div>
+        <div>$$\left[\begin{array} \\ W_1 \\ W_2 \end{array}\right]\begin{bmatrix}B_x-A_x & C_x-A_x \\ B_y-A_y & C_y-A_y \\\end{bmatrix} = \left[\begin{array}\\D_x-A_x\\D_y-A_y\end{array}\right]$$</div>
         <p>We can write this as an augmented matrix:</p>
-        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x \\ B_y-A_y & C_y-A_y & D_y \\\end{array}\right]$$</div>
+        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x-A_x \\ B_y-A_y & C_y-A_y & (D_y-A_y) \\\end{array}\right]$$</div>
         <p>Using Gaussian elimination, we can perform some row operations:</p>
-        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x \\ B_y-A_y & C_y-A_y & D_y \\\end{array}\right]$$</div>
-        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x \\ B_x-A_x & \frac{(C_y-A_y)(B_x-A_x)}{B_y-A_y} & \frac{D_y(B_x-A_x)}{B_y-A_y} \\\end{array}\right]$$</div>
-        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x \\ 0 & \frac{(C_x-A_x)(B_y-A_y)-(C_y-A_y)(B_x-A_x)}{B_y-A_y} & \frac{D_x(B_y-A_y)-D_y(B_x-A_x)}{B_y-A_y} \\\end{array}\right]$$</div>
+        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x-A_x \\ B_y-A_y & C_y-A_y & (D_y-A_y) \\\end{array}\right]$$</div>
+        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x-A_x \\ B_x-A_x & \frac{(C_y-A_y)(B_x-A_x)}{B_y-A_y} & \frac{(D_y-A_y)(B_x-A_x)}{B_y-A_y} \\\end{array}\right]$$</div>
+        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x-A_x \\ 0 & \frac{(C_x-A_x)(B_y-A_y)-(C_y-A_y)(B_x-A_x)}{B_y-A_y} & \frac{(D_x-A_x)(B_y-A_y)-(D_y-A_y)(B_x-A_x)}{B_y-A_y} \\\end{array}\right]$$</div>
         <p>We can now calculate W<sub>2</sub> as the matrix is now in row-echlon form.</p>
-        <div>$$W_2=\frac{D_x(B_y-A_y)-D_y(B_x-A_x)}{(C_x-A_x)(B_y-A_y)-(C_y-A_y)(B_x-A_x)}$$</div>
+        <div>$$W_2=\frac{(D_x-A_x)(B_y-A_y)-(D_y-A_y)(B_x-A_x)}{(C_x-A_x)(B_y-A_y)-(C_y-A_y)(B_x-A_x)}$$</div>
         <p>We can finally solve for W<sub>1</sub> by substituting in W<sub>2</sub>.</p>
         <div>$$(B_x-A_x)W_1+(C_x-A_x)W_2=D_x$$</div>
         <div>$$(B_x-A_x)W_1=D_x-(C_x-A_x)W_2$$</div>
         <div>$$W_1=\frac{D_x-(C_x-A_x)W_2}{B_x-A_x}$$</div>
+        <p>After computing the weights, notice how the sum is always less than 1 if point D is in the triangle and how both weights are greater than 0 for the point D to be in the triangle.</p>
     </div>
 </body>
 
