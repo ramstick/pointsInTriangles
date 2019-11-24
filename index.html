@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <!-- P5 js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <!-- MathJax Stuff -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- My garbage code -->
+    <script src="script.js"></script>
+    <script>
+    </script>
+
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        
+        #ExplainerArea {
+            background-color: #111111AA;
+            width: 500px;
+            height: 500px;
+            position: absolute;
+            left: 490px;
+            top: 10px;
+            text-align: center;
+            border-radius: 5%;
+        }
+        
+        div {
+            font-family: Arial;
+            padding: 10px;
+        }
+        
+        #derivation {
+            position: absolute;
+            top: 1020px;
+        }
+        
+        #ExplainerArea.h1 {
+            font-size: 18px;
+        }
+        
+        canvas {
+            border: white 2px solid;
+            border-radius: 1%;
+        }
+    </style>
+</head>
+
+<body onload="main();">
+    <div id="ExplainerArea">
+        <h1>Point in a Triangle (My dumbass solution)</h1>
+        <div>$$W_2 = \frac{D_x(B_y-A_y)-Dy(B_x-A_x)}{(B_y-A_y)(C_x-A_x)-(B_x-A_x)(C_y-A_y)}$$</div>
+        <div>$$W_1 = \frac{D_x-W_2(C_x-A_x)}{B_x-A_x}$$</div>
+        <p>Drag the points in the triangle. The triangle will turn green if point D is in Triangle ABC.</p>
+        <small>Website by a f*cking idiot named Andrew Lin.<br>Powered by MathJax</small>
+    </div>
+    <div id="derivation">
+        <h1>Derivation of the equations</h1>
+        <p>Looking at the sandbox, W<sub>1</sub> and W<sub>2</sub> are 2 different weights<br>W<sub>1</sub> will scale the AB vector and W<sub>2</sub> will scale the AC vector.<br></p>
+        <p>It is gauranteed that the combination of a W<sub>1</sub> and W<sub>2</sub> will sum up to vector D<br>Therefore there is such a W<sub>1</sub> and W<sub>2</sub> where:</p>
+        <div>$$\left[\begin{array} \\ W_1 \\ W_2 \end{array}\right]\begin{bmatrix}B_x-A_x & C_x-A_x \\ B_y-A_y & C_y-A_y \\\end{bmatrix} = \left[\begin{array}\\D_x\\D_y\end{array}\right]$$</div>
+        <p>We can write this as an augmented matrix:</p>
+        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x \\ B_y-A_y & C_y-A_y & D_y \\\end{array}\right]$$</div>
+        <p>Using Gaussian elimination, we can perform some row operations:</p>
+        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x \\ B_y-A_y & C_y-A_y & D_y \\\end{array}\right]$$</div>
+        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x \\ B_x-A_x & \frac{(C_y-A_y)(B_x-A_x)}{B_y-A_y} & \frac{D_y(B_x-A_x)}{B_y-A_y} \\\end{array}\right]$$</div>
+        <div>$$\left[\begin{array}{cc|c}B_x-A_x & C_x-A_x & D_x \\ 0 & \frac{(C_x-A_x)(B_y-A_y)-(C_y-A_y)(B_x-A_x)}{B_y-A_y} & \frac{D_x(B_y-A_y)-D_y(B_x-A_x)}{B_y-A_y} \\\end{array}\right]$$</div>
+        <p>We can now calculate W<sub>2</sub> as the matrix is now in row-echlon form.</p>
+        <div>$$W_2=\frac{D_x(B_y-A_y)-D_y(B_x-A_x)}{(C_x-A_x)(B_y-A_y)-(C_y-A_y)(B_x-A_x)}$$</div>
+        <p>We can finally solve for W<sub>1</sub> by substituting in W<sub>2</sub>.</p>
+        <div>$$(B_x-A_x)W_1+(C_x-A_x)W_2=D_x$$</div>
+        <div>$$(B_x-A_x)W_1=D_x-(C_x-A_x)W_2$$</div>
+        <div>$$W_1=\frac{D_x-(C_x-A_x)W_2}{B_x-A_x}$$</div>
+    </div>
+</body>
+
+</html>
