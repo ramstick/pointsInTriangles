@@ -48,7 +48,7 @@ class Circle {
 
 
 function draw() {
-    background(0);
+    background(10, 0, 10);
     stroke(255, 255, 255);
 
 
@@ -80,18 +80,15 @@ function draw() {
             dy += mouseY - oldY;
             break;
     }
-
-
     const gae = computeWeights(ax, ay, bx, by, cx, cy, dx, dy);
     strokeWeight(1);
-    text("W1: " + gae.w1, 100, 20);
-    text("W2: " + gae.w2, 100, 40);
-    text("W1 + W2: " + (gae.w1 + gae.w2), 100, 60);
+    text("W1: " + formatNumber(gae.w1, 3), 100, 20);
+    text("W2: " + formatNumber(gae.w2, 3), 100, 40);
+    text("W1 + W2: " + formatNumber(gae.w1 + gae.w2, 3), 100, 60);
 
     stroke(255, 255, 255);
     if (gae.w1 + gae.w2 <= 1 && gae.w1 >= 0 && gae.w2 >= 0)
         stroke(0, 255, 0);
-
     line(ax, ay, bx, by);
     line(ax, ay, cx, cy);
     line(cx, cy, bx, by);
@@ -117,12 +114,21 @@ function draw() {
     circle(dx, dy, rad);
     text("D", dx, dy - rad - 5);
     noFill();
-    stroke(0, 0, 255);
-    strokeWeight(5);
-    drawParametricLine(ax, ay, bx, by, gae.w1);
-    stroke(255, 0, 0);
-    drawParametricLine(ax, ay, cx, cy, gae.w2);
+    if (gae.fuck) {
+        stroke(0, 0, 255);
+        strokeWeight(5);
+        drawParametricLine(ax, ay, cx, cy, gae.w1);
+        stroke(255, 0, 0);
+        drawParametricLine(ax, ay, bx, by, gae.w2);
+    } else {
+        stroke(0, 0, 255);
+        strokeWeight(5);
+        drawParametricLine(ax, ay, bx, by, gae.w1);
+        stroke(255, 0, 0);
+        drawParametricLine(ax, ay, cx, cy, gae.w2);
+    }
 
+    updatePointList(ax, ay, bx, by, cx, cy, dx, dy);
 
 }
 
@@ -131,16 +137,40 @@ function drawParametricLine(startx, starty, endx, endy, t) {
 }
 
 function computeWeights(ax, ay, bx, by, cx, cy, dx, dy) {
-    const dABX = bx - ax;
-    const dABY = by - ay;
-    const dACX = cx - ax;
-    const dACY = cy - ay;
-    dx -= ax;
-    dy -= ay;
+    if (bx - ax != 0) {
+        const dABX = bx - ax;
+        const dABY = by - ay;
+        const dACX = cx - ax;
+        const dACY = cy - ay;
+        dx -= ax;
+        dy -= ay;
 
-    const w2 = (dABY * dx - dABX * dy) / (dABY * dACX - dABX * dACY);
-    const w1 = (dx - dACX * w2) / dABX;
-    return { w1: w1, w2: w2 };
+        const w2 = (dABY * dx - dABX * dy) / (dABY * dACX - dABX * dACY);
+        const w1 = (dx - dACX * w2) / dABX;
+
+        return {
+            w1: w1,
+            w2: w2,
+            fuck: false
+        }
+    } else {
+        const dABX = cx - ax;
+        const dABY = cy - ay;
+        const dACX = bx - ax;
+        const dACY = by - ay;
+        dx -= ax;
+        dy -= ay;
+
+        const w2 = (dABY * dx - dABX * dy) / (dABY * dACX - dABX * dACY);
+        const w1 = (dx - dACX * w2) / dABX;
+
+        return {
+            w1: w1,
+            w2: w2,
+            fuck: true
+        }
+    }
+
 }
 
 function mousePressed() {
@@ -182,4 +212,31 @@ function mouseReleased() {
     selected = -1;
 
     return false;
+}
+
+function formatNumber(num, decimalplaces) {
+    return Math.round(num * (10 ** decimalplaces)) / (10 ** decimalplaces);
+}
+
+function updatePointList(ax, ay, bx, by, cx, cy, dx, dy) {
+    var ae = document.getElementById("Pa");
+    var be = document.getElementById("Pb");
+    var ce = document.getElementById("Pc");
+    var de = document.getElementById("Pd");
+    ae.getElementsByClassName("x")[0].innerHTML = "<h3>" + ax + "</h3>";
+    ae.getElementsByClassName("y")[0].innerHTML = "<h3>" + ay + "</h3>";
+    be.getElementsByClassName("x")[0].innerHTML = "<h3>" + bx + "</h3>";
+    be.getElementsByClassName("y")[0].innerHTML = "<h3>" + by + "</h3>";
+    ce.getElementsByClassName("x")[0].innerHTML = "<h3>" + cx + "</h3>";
+    ce.getElementsByClassName("y")[0].innerHTML = "<h3>" + cy + "</h3>";
+    de.getElementsByClassName("x")[0].innerHTML = "<h3>" + dx + "</h3>";
+    de.getElementsByClassName("y")[0].innerHTML = "<h3>" + dy + "</h3>";
+
+}
+
+function reset() {
+    a = new Circle(100.0, 500.0);
+    b = new Circle(300.0, 200.0);
+    c = new Circle(200.0, 500.0);
+    d = new Circle(300.0, 300.0);
 }

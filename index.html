@@ -22,12 +22,13 @@
         #ExplainerArea {
             background-color: #111111AA;
             width: 500px;
-            height: 500px;
+            height: 700px;
             position: absolute;
-            left: 490px;
+            left: 460px;
             top: 10px;
             text-align: center;
             border-radius: 5%;
+            border: #00220055 10px solid;
         }
         
         div {
@@ -48,15 +49,81 @@
             border: white 2px solid;
             border-radius: 1%;
         }
+        
+        #points {
+            width: 100px;
+            margin: 0 auto;
+            height: 200px;
+        }
+        
+        input {
+            background-color: #00000000;
+            border-width: 0px;
+        }
+        
+        button {
+            border-width: 0px;
+            background-color: #00000011;
+            color: #FFFFFFAA;
+            height: 18px;
+            font-size: 12px;
+        }
+        
+        button:hover {
+            background-color: #00000044;
+        }
+        
+        small {
+            font-size: 8px;
+        }
     </style>
 </head>
 
 <body onload="main();">
     <div id="ExplainerArea">
-        <h1>Point in a Triangle (My dumbass solution)</h1>
+        <h1>Point in a Triangle</h1>
+        <p>Solution by an idiot</p>
         <div>$$W_2 = \frac{D_x(B_y-A_y)-Dy(B_x-A_x)}{(B_y-A_y)(C_x-A_x)-(B_x-A_x)(C_y-A_y)}$$</div>
         <div>$$W_1 = \frac{D_x-W_2(C_x-A_x)}{B_x-A_x}$$</div>
         <p>Drag the points in the triangle. The triangle will turn green if point D is in Triangle ABC.</p>
+        <table id="points">
+            <tbody>
+                <tr id="Pa">
+                    <th>A</th>
+                    <td>(</td>
+                    <td class="x"></td>
+                    <td>, </td>
+                    <td class="y"></td>
+                    <td>)</td>
+                </tr>
+                <tr id="Pb">
+                    <th>B</th>
+                    <td>(</td>
+                    <td class="x"></td>
+                    <td>, </td>
+                    <td class="y"></td>
+                    <td>)</td>
+                </tr>
+                <tr id="Pc">
+                    <th>C</th>
+                    <td>(</td>
+                    <td class="x"></td>
+                    <td>, </td>
+                    <td class="y"></td>
+                    <td>)</td>
+                </tr>
+                <tr id="Pd">
+                    <th>D</th>
+                    <td>(</td>
+                    <td class="x"></td>
+                    <td>, </td>
+                    <td class="y"></td>
+                    <td>)</td>
+                </tr>
+            </tbody>
+        </table>
+        <button onclick="reset();">Reset</button>
+        <br>
         <small>Website by a f*cking idiot named Andrew Lin.<br>Powered by MathJax</small>
     </div>
     <div id="derivation">
@@ -73,9 +140,9 @@
         <p>We can now calculate W<sub>2</sub> as the matrix is now in row-echlon form.</p>
         <div>$$W_2=\frac{(D_x-A_x)(B_y-A_y)-(D_y-A_y)(B_x-A_x)}{(C_x-A_x)(B_y-A_y)-(C_y-A_y)(B_x-A_x)}$$</div>
         <p>We can finally solve for W<sub>1</sub> by substituting in W<sub>2</sub>.</p>
-        <div>$$(B_x-A_x)W_1+(C_x-A_x)W_2=D_x$$</div>
+        <div>$$(B_x-A_x)W_1+(C_x-A_x)W_2=D_x-A_x$$</div>
         <div>$$(B_x-A_x)W_1=D_x-(C_x-A_x)W_2$$</div>
-        <div>$$W_1=\frac{D_x-(C_x-A_x)W_2}{B_x-A_x}$$</div>
+        <div>$$W_1=\frac{(D_x-A_x)-(C_x-A_x)W_2}{B_x-A_x}$$</div>
         <p>After computing the weights, notice how the sum is always less than 1 if point D is in the triangle and how both weights are greater than 0 for the point D to be in the triangle.</p>
     </div>
 </body>
